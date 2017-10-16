@@ -10,7 +10,7 @@ path = '/var/www/html'
 
 [crum, cook] = crumb.findCrumb()
 
-with open('ticker_list.txt', 'r') as f:  
+with open('ticker_list', 'r') as f:  
     page = f.readlines()
 
 for line in page:
