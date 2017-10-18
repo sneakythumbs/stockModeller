@@ -38,7 +38,8 @@ def fitSine(func, xdata, ydata):
 #    maxFreq = freqs[np.argmax(spect[1:]) + 1]
     return fitCurve(func, xdata * maxFreq, ydata)
 
-def interpolateMissing(data, mask, r=1):
+def interpolateMissing(data, r=1):
+    mask = np.isnan(data)
     buf = np.zeros_like(data[mask])
     newMask = np.array(mask)
     for i in range(r):
@@ -51,18 +52,15 @@ def interpolateMissing(data, mask, r=1):
         for i in range(r):
             newMask = newMask | np.roll(newMask, -1)
         data[newMask] = float('nan')
-        data = interpolateMissing(data, newMask, r+1)
+        data = interpolateMissing(data, r+1)
     return data
     
 dict = {0: date2epoch, 1: missing2nan, 2: missing2nan, 3: missing2nan, 4: missing2nan, 5: missing2nan, 6: missing2nan}
 def loadData(ticker):
     blob = np.loadtxt(ticker + '.txt', skiprows=1, delimiter=',', converters=dict, unpack=True)
     for idx, col in enumerate(blob):
-        mask = np.isnan(col)
-        if np.any(mask):
-#            col = np.nan_to_num(col) * ~mask
-#            blob[idx] = col + 0.5 * mask * (np.roll(col, 1) + np.roll(col, -1))
-            blob[idx] = interpolateMissing(col, mask)
+        if np.isnan(col).any():
+            blob[idx] = interpolateMissing(col)
     return blob
 
 
