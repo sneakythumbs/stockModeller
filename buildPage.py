@@ -16,3 +16,8 @@ def writeWebPage(fullpath):
 
     with open(fullpath +'/index.html', 'w') as f:
         f.write(doc.render())
+
+def removeOldPlots(fullpath):
+     for image in reversed(glob.glob(fullpath + '/*.svg')):
+         os.remove(image)
+
