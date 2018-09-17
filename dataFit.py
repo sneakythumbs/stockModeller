@@ -1,6 +1,7 @@
 import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.mlab as mlab
+import matplotlib.dates as dts
 import time
 
 import scipy.optimize as op
@@ -89,9 +90,14 @@ def fitData(xdata, ydata, line, sine):
     return linear, wave
 
 def plotData(ticker, xdata, ydata, linear, wave, path):
+    xformat = dts.DateFormatter('%d-%m-%Y')
     fig = plt.figure()
+    xdata = dts.epoch2num(xdata)
+
     ax = fig.add_subplot(111)
+    fig.autofmt_xdate()
     ax.set_title(ticker)
+    ax.xaxis.set_major_formatter(xformat)
     ax.plot(xdata, ydata)
     ax.plot(xdata, wave + linear, color='red')
     ax.plot(xdata, linear, color='darkgreen')
