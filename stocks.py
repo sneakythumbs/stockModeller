@@ -30,11 +30,17 @@ for line in page:
         print('Error pulling', ticker, 'skipping')
         print('...')
         continue
-    [Date,Open,High,Low,Close,Adj_Close,Volume] = dataFit.loadData(ticker, pwd)
-    [line, sine] = dataFit.fitData(Date, Low, dataFit.line, dataFit.sine)
-    dataFit.plotData(ticker, Date, Low, line, sine, path)
-    print('Plotted', ticker)
-    print('...')
+    try:
+        [Date,Open,High,Low,Close,Adj_Close,Volume] = dataFit.loadData(ticker, pwd)
+        [line, sine] = dataFit.fitData(Date, Low, dataFit.line, dataFit.sine)
+#    dataFit.plotData(ticker, Date, Low, line, sine, path)
+        dataFit.plotData(ticker, Date, Adj_Close, line, sine, path)
+        print('Plotted', ticker)
+        print('...')
+    except:
+        print('Error plotting', ticker, 'skipping')
+        print('...')
+        continue
 
 buildPage.writeWebPage(path)
 print('Written Webpage')

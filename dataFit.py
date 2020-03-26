@@ -71,7 +71,7 @@ def stripOutliers(data):
 
 def loadData(ticker, path):
     dict = {0: date2epoch, 1: missing2nan, 2: missing2nan, 3: missing2nan, 4: missing2nan, 5: missing2nan, 6: missing2nan}
-    blob = np.loadtxt(path + '/' + ticker + '.txt', skiprows=1, delimiter=',', converters=dict, unpack=True)
+    blob = np.loadtxt(path + '/' + ticker + '.txt', skiprows=2, delimiter=',', converters=dict, unpack=True)
     for idx, col in enumerate(blob):
         if not idx: continue
         data = np.array(col)
